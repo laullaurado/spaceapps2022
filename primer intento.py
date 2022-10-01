@@ -3,10 +3,19 @@ import pygame, random
 BLACK = (0, 0, 0)
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 600
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+pygame.display.set_caption("Salvando a James")
 x = 0
 izquierda = False
 derecha = False
 cuentaPasos = 0
+
+def draw_text(surface, text, size, x, y):
+    font = pygame.font.SysFont("serif", size)
+    text_surface = font.render(text, True, (255, 255, 255))
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surface.blit(text_surface, text_rect)
 
 class James(pygame.sprite.Sprite):
     def __init__(self):
@@ -92,12 +101,14 @@ for i in range(0,5):
     james.rect.y = 510 
     james_list.add(james)
     all_sprite_list.add(james)
-
-
+    
+pygame.mixer.music.load("musica.mp3")
+pygame.mixer.music.play()
+    
 while not done:
     Tiempo = pygame.time.get_ticks()
     #print(Tiempo)
-    
+    sound = pygame.mixer.Sound("laser5.ogg")
     
     if(Tiempo % tiempo_entre == 0):
         meteor = Meteor()
@@ -119,6 +130,7 @@ while not done:
                 laser.rect.y = player.rect.y - 20
                 laser_list.add(laser)
                 all_sprite_list.add(laser)
+                sound.play()
 
 
     all_sprite_list.update() 
@@ -142,11 +154,13 @@ while not done:
             Life -= 1
             print(Life)
 
-    screen.fill([255, 255, 255])
+    screen.fill([0, 0, 0])
 
     all_sprite_list.draw(screen)
 
-    pygame.display.flip()
     clock.tick(60)
+    draw_text(screen, "Score: " + str(score), 25, SCREEN_WIDTH // 2, 10)
+    draw_text(screen, "Lifes: " + str(Life), 25, SCREEN_WIDTH // 2, 35)
+    pygame.display.flip()
 
 pygame.quit()
