@@ -50,18 +50,25 @@ meteor_list = pygame.sprite.Group()
 all_sprite_list = pygame.sprite.Group()
 laser_list = pygame.sprite.Group()
 
-for i in range(50):
-    meteor = Meteor()
-    meteor.rect.x = random.randrange(SCREEN_WIDTH - 20)
-    meteor.rect.y = random.randrange(450) 
-
-    meteor_list.add(meteor)
-    all_sprite_list.add(meteor)
 
 player = Player()
 all_sprite_list.add(player)
 
+Tiempo = pygame.time.get_ticks()
+tiempo_entre = 100
+
 while not done:
+    Tiempo = pygame.time.get_ticks()
+    print(Tiempo)
+    
+    if(Tiempo % tiempo_entre == 0):
+        meteor = Meteor()
+        meteor.rect.x = random.randrange(SCREEN_WIDTH - 20)
+        meteor.rect.y = 600 
+
+        meteor_list.add(meteor)
+        all_sprite_list.add(meteor)
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
