@@ -8,6 +8,12 @@ class Meteor(pygame.sprite.Sprite):
         self.image = pygame.image.load("meteor2.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
+    
+    def update(self):
+        self.rect.y += 1
+        if self.rect.y > 600:
+            self.rect.y = -10
+            self.rect.x = random.randrange(900)
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -59,6 +65,7 @@ while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             laser = Laser()
