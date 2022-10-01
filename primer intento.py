@@ -2,6 +2,13 @@ import pygame, random
 
 BLACK = (0, 0, 0)
 
+class James(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("meteor2.png").convert()
+        self.image.set_colorkey(BLACK)
+        self.rect = self.image.get_rect()
+
 class Meteor(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -25,7 +32,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         mouse_pos = pygame.mouse.get_pos()
         player.rect.x = mouse_pos[0]
-        player.rect.y = 510
+        player.rect.y = 400
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self):
@@ -49,17 +56,26 @@ score = 0
 meteor_list = pygame.sprite.Group()
 all_sprite_list = pygame.sprite.Group()
 laser_list = pygame.sprite.Group()
-
+james_list = pygame.sprite.Group()
 
 player = Player()
 all_sprite_list.add(player)
 
 Tiempo = pygame.time.get_ticks()
 tiempo_entre = 100
+Life = 5;
+esp = 50;
+for i in range(0,5):
+    james = James()
+    james.rect.x = esp + i*180
+    james.rect.y = 510 
+    james_list.add(james)
+    all_sprite_list.add(james)
 
 while not done:
     Tiempo = pygame.time.get_ticks()
     print(Tiempo)
+    
     
     if(Tiempo % tiempo_entre == 0):
         meteor = Meteor()
