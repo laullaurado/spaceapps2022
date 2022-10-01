@@ -74,7 +74,7 @@ for i in range(0,5):
 
 while not done:
     Tiempo = pygame.time.get_ticks()
-    print(Tiempo)
+    #print(Tiempo)
     
     
     if(Tiempo % tiempo_entre == 0):
@@ -112,6 +112,13 @@ while not done:
             all_sprite_list.remove(laser)
             laser_list.remove(laser)
 
+    for meteor in meteor_list:
+        james_hit_list = pygame.sprite.spritecollide(meteor, james_list, True)	
+        for james in james_hit_list:
+            all_sprite_list.remove(meteor)
+            james_list.remove(meteor)
+            Life -= 1
+            print(Life)
 
     screen.fill([255, 255, 255])
 
