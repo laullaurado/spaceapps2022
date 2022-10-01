@@ -5,7 +5,7 @@ BLACK = (0, 0, 0)
 class James(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("meteor2.png").convert()
+        self.image = pygame.image.load("james.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
 
