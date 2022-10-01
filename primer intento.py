@@ -5,14 +5,14 @@ BLACK = (0, 0, 0)
 class Meteor(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("meteor.png").convert()
+        self.image = pygame.image.load("meteor2.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("player.png").convert()
+        self.image = pygame.image.load("player2.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
 
@@ -78,7 +78,7 @@ while not done:
             laser_list.remove(laser)
             score += 1
             print(score)
-        if laser.rect.y < -10:
+        if laser.rect.y < -20:
             all_sprite_list.remove(laser)
             laser_list.remove(laser)
 
