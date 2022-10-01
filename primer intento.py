@@ -1,6 +1,12 @@
 import pygame, random
 
 BLACK = (0, 0, 0)
+SCREEN_WIDTH = 900
+SCREEN_HEIGHT = 600
+x = 0
+izquierda = False
+derecha = False
+cuentaPasos = 0
 
 class James(pygame.sprite.Sprite):
     def __init__(self):
@@ -30,9 +36,25 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        mouse_pos = pygame.mouse.get_pos()
-        player.rect.x = mouse_pos[0]
+        # mouse_pos = pygame.mouse.get_pos()
+        ancho = 40
+        velocidad = 10
         player.rect.y = 400
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT and player.rect.x < 900 - velocidad - ancho:
+                all_sprite_list.remove(player)
+                player.rect.x += velocidad
+                all_sprite_list.add(player)
+                izquierda = False
+                derecha = True
+            if event.key == pygame.K_LEFT and player.rect.x > velocidad:
+        	    player.rect.x -= velocidad
+        	    izquierda = True
+        	    derecha = False
+            else:
+        	    izquierda = False
+        	    derecha = False
+        	    cuentaPasos = 0
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self):
@@ -43,15 +65,14 @@ class Laser(pygame.sprite.Sprite):
     def update(self):
         self.rect.y -= 4
 
-
 pygame.init()
 
-SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 done = False
 score = 0
+icono = pygame.image.load('player3.png')
+pygame.display.set_icon(icono)
 
 meteor_list = pygame.sprite.Group()
 all_sprite_list = pygame.sprite.Group()
@@ -72,6 +93,7 @@ for i in range(0,5):
     james_list.add(james)
     all_sprite_list.add(james)
 
+
 while not done:
     Tiempo = pygame.time.get_ticks()
     #print(Tiempo)
@@ -90,13 +112,13 @@ while not done:
             done = True
         
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            laser = Laser()
-            laser.rect.x = player.rect.x + 45
-            laser.rect.y = player.rect.y - 20
-
-            laser_list.add(laser)
-            all_sprite_list.add(laser)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                laser = Laser()
+                laser.rect.x = player.rect.x + 45
+                laser.rect.y = player.rect.y - 20
+                laser_list.add(laser)
+                all_sprite_list.add(laser)
 
 
     all_sprite_list.update() 
