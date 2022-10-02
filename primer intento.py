@@ -51,7 +51,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         # mouse_pos = pygame.mouse.get_pos()
         ancho = 40
-        velocidad = 10
+        velocidad = 8
         player.rect.y = 400
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT and player.rect.x < 900 - velocidad - ancho:
@@ -96,7 +96,7 @@ player = Player()
 all_sprite_list.add(player)
 
 Tiempo = pygame.time.get_ticks()
-tiempo_entre = 60
+tiempo_entre = 65
 Life = 5;
 esp = 50;
 for i in range(0,5):
