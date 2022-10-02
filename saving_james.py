@@ -33,14 +33,14 @@ class Button():
 class James(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("james.png").convert()
+        self.image = pygame.image.load("images/james.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
 
 class Meteor(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("meteor2.png").convert()
+        self.image = pygame.image.load("images/meteor.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
     
@@ -53,7 +53,7 @@ class Meteor(pygame.sprite.Sprite):
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("player2.png").convert()
+        self.image = pygame.image.load("images/player.png").convert()
         self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
 
@@ -81,7 +81,7 @@ class Player(pygame.sprite.Sprite):
 class Laser(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.image.load("laser.png").convert()
+        self.image = pygame.image.load("images/laser.png").convert()
         self.rect = self.image.get_rect()
 
     def update(self):
@@ -95,20 +95,20 @@ def draw_text(surface, text, size, x, y):
     surface.blit(text_surface, text_rect)
 
 def get_font(size): # Returns Press-Start-2P in the desired size
-    return pygame.font.Font("IMAGESGAME/font.ttf", size)
+    return pygame.font.Font("images/font.ttf", size)
 
 def instructions():
     while True:
         INSTRUCTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
-        BACKGROUND = pygame.image.load("IMAGESGAME/Background.png")
+        BACKGROUND = pygame.image.load("images/Background.png")
         screen.blit(BACKGROUND, (0, 0))
 
         INSTRUCTIONS_TEXT = get_font(65).render("INSTRUCTIONS", True, "#b68f40")
         INSTRUCTIONS_RECT = INSTRUCTIONS_TEXT.get_rect(center = (450, 100))
         screen.blit(INSTRUCTIONS_TEXT, INSTRUCTIONS_RECT)
         
-        IMAGEN_INSTRUCCIONES = pygame.image.load("Instrucciones.png")
+        IMAGEN_INSTRUCCIONES = pygame.image.load("images/Instrucciones.png")
         screen.blit(IMAGEN_INSTRUCCIONES, (0, 130))
         
         INSTRUCTIONS_BACK = Button(image=None, pos=(450, 550), 
@@ -130,7 +130,7 @@ def instructions():
 def fun_facts(score):
     while True:
         FACTS_MOUSE_POS = pygame.mouse.get_pos()
-        BACKGROUND = pygame.image.load("IMAGESGAME/Background.png")
+        BACKGROUND = pygame.image.load("images/Background.png")
         screen.blit(BACKGROUND, (0, 0))
         FACTS_TEXT = get_font(50).render("DID YOU KNOW...?", True, "#b68f40")
         FACTS_RECT = FACTS_TEXT.get_rect(center = (450, 80))
@@ -151,7 +151,7 @@ def fun_facts(score):
                 True, "White")
             FACT_1_RECT = FACTS_TEXT.get_rect(center = (500, 195))
             screen.blit(FACT_1_TEXT, FACT_1_RECT)
-            IMAGEN_FACT_1 = pygame.image.load("IMAGESGAME/datos_curiosos_1.jpg")
+            IMAGEN_FACT_1 = pygame.image.load("images/datos_curiosos_1.jpg")
             screen.blit(IMAGEN_FACT_1, (200, 200))
         FACTS_BACK = Button(image=None, pos=(450, 550), 
                             text_input="BACK", font=get_font(50), base_color="Black", hovering_color="Green")
@@ -183,11 +183,11 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 pygame.display.set_caption("Saving James")
 
 clock = pygame.time.Clock()
-icono = pygame.image.load('player2.png')
+icono = pygame.image.load('images/player.png')
 pygame.display.set_icon(icono)
-BG = pygame.image.load("IMAGESGAME/fondo_menu.jpg")
+BG = pygame.image.load("images/fondo_menu.jpg")
     
-pygame.mixer.music.load("musica.mp3")
+pygame.mixer.music.load("audio/music.mp3")
 pygame.mixer.music.play()
 
 while True:
@@ -198,11 +198,11 @@ while True:
     MENU_TEXT = get_font(80).render("MENU", True, "#b68f40")
     MENU_RECT = MENU_TEXT.get_rect(center=(450, 100))
 
-    PLAY_BUTTON = Button(image=pygame.image.load("IMAGESGAME/Play Rect.png"), pos=(450, 250), 
+    PLAY_BUTTON = Button(image=pygame.image.load("images/Play Rect.png"), pos=(450, 250), 
                          text_input="PLAY", font=get_font(65), base_color="#d7fcd4", hovering_color="White")
-    INSTRUCTIONS_BUTTON = Button(image=pygame.image.load("IMAGESGAME/Options Rect.png"), pos=(450, 400), 
+    INSTRUCTIONS_BUTTON = Button(image=pygame.image.load("images/Options Rect.png"), pos=(450, 400), 
                         text_input="INSTRUCTIONS", font=get_font(65), base_color="#d7fcd4", hovering_color="White")
-    QUIT_BUTTON = Button(image=pygame.image.load("IMAGESGAME/Quit Rect.png"), pos=(450, 550), 
+    QUIT_BUTTON = Button(image=pygame.image.load("images/Quit Rect.png"), pos=(450, 550), 
                          text_input="QUIT", font=get_font(65), base_color="#d7fcd4", hovering_color="White")
 
     screen.blit(MENU_TEXT, MENU_RECT)
@@ -217,7 +217,7 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                fondo =  pygame.image.load("james_webb_1.png")
+                fondo =  pygame.image.load("images/james_webb_1.png")
                 all_sprite_list = pygame.sprite.Group()
                 meteor_list = pygame.sprite.Group()
                 laser_list = pygame.sprite.Group()
@@ -243,7 +243,7 @@ while True:
                 score = 0
                 while not done:
                     Tiempo = pygame.time.get_ticks()
-                    sound = pygame.mixer.Sound("laser5.ogg")
+                    sound = pygame.mixer.Sound("audio/laser.ogg")
                         
                     x_relativa = x % fondo.get_rect().width
                     screen.blit(fondo,(x_relativa - fondo.get_rect().width,0))
