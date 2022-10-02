@@ -3,12 +3,16 @@ import pygame, random
 BLACK = (0, 0, 0)
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+
 pygame.display.set_caption("Salvando a James")
 x = 0
 izquierda = False
 derecha = False
 cuentaPasos = 0
+
+screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
+fondo =  pygame.image.load("james_webb_1.png")
+
 
 def draw_text(surface, text, size, x, y):
     font = pygame.font.SysFont("serif", size)
@@ -92,7 +96,7 @@ player = Player()
 all_sprite_list.add(player)
 
 Tiempo = pygame.time.get_ticks()
-tiempo_entre = 100
+tiempo_entre = 60
 Life = 5;
 esp = 50;
 for i in range(0,5):
@@ -109,6 +113,12 @@ while not done:
     Tiempo = pygame.time.get_ticks()
     #print(Tiempo)
     sound = pygame.mixer.Sound("laser5.ogg")
+    
+    x_relativa = x % fondo.get_rect().width
+    screen.blit(fondo,(x_relativa - fondo.get_rect().width,0))
+    if x_relativa < SCREEN_WIDTH:
+        screen.blit(fondo,(x_relativa,0))
+    x -= 1
     
     if(Tiempo % tiempo_entre == 0):
         meteor = Meteor()
@@ -154,7 +164,6 @@ while not done:
             Life -= 1
             print(Life)
 
-    screen.fill([0, 0, 0])
 
     all_sprite_list.draw(screen)
 
