@@ -105,9 +105,12 @@ def instructions():
         screen.blit(BACKGROUND, (0, 0))
 
         INSTRUCTIONS_TEXT = get_font(65).render("INSTRUCTIONS", True, "#b68f40")
-        INSTRUCTIONS_RECT = INSTRUCTIONS_TEXT.get_rect(center=(450, 100))
+        INSTRUCTIONS_RECT = INSTRUCTIONS_TEXT.get_rect(center = (450, 100))
         screen.blit(INSTRUCTIONS_TEXT, INSTRUCTIONS_RECT)
-
+        
+        IMAGEN_INSTRUCCIONES = pygame.image.load("Instrucciones.png")
+        screen.blit(IMAGEN_INSTRUCCIONES, (0, 130))
+        
         INSTRUCTIONS_BACK = Button(image=None, pos=(450, 550), 
                             text_input="BACK", font=get_font(65), base_color="Black", hovering_color="Green")
 
@@ -125,11 +128,47 @@ def instructions():
         pygame.display.update()
         
 def fun_facts(score):
-    if score == 10:
+    while True:
         FACTS_MOUSE_POS = pygame.mouse.get_pos()
-
         BACKGROUND = pygame.image.load("IMAGESGAME/Background.png")
         screen.blit(BACKGROUND, (0, 0))
+        FACTS_TEXT = get_font(50).render("DID YOU KNOW...?", True, "#b68f40")
+        FACTS_RECT = FACTS_TEXT.get_rect(center = (450, 80))
+        screen.blit(FACTS_TEXT, FACTS_RECT)
+        if score == 10:
+            FACT_1_TEXT = get_font(20).render(
+                "The James Webb telescope is the most", 
+                True, "White")
+            FACT_1_RECT = FACTS_TEXT.get_rect(center = (500, 145))
+            screen.blit(FACT_1_TEXT, FACT_1_RECT)
+            FACT_1_TEXT = get_font(20).render(
+                "expensive, sophisticated and complex", 
+                True, "White")
+            FACT_1_RECT = FACTS_TEXT.get_rect(center = (500, 170))
+            screen.blit(FACT_1_TEXT, FACT_1_RECT)
+            FACT_1_TEXT = get_font(20).render(
+                "telescope ever launched into space.", 
+                True, "White")
+            FACT_1_RECT = FACTS_TEXT.get_rect(center = (500, 195))
+            screen.blit(FACT_1_TEXT, FACT_1_RECT)
+            IMAGEN_FACT_1 = pygame.image.load("IMAGESGAME/datos_curiosos_1.jpg")
+            screen.blit(IMAGEN_FACT_1, (200, 200))
+        FACTS_BACK = Button(image=None, pos=(450, 550), 
+                            text_input="BACK", font=get_font(50), base_color="Black", hovering_color="Green")
+
+        FACTS_BACK.changeColor(FACTS_MOUSE_POS)
+        FACTS_BACK.update(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if FACTS_BACK.checkForInput(FACTS_MOUSE_POS):
+                    return
+        
+        pygame.display.update()
+        
 
 pygame.init()
 
@@ -144,7 +183,7 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 pygame.display.set_caption("Saving James")
 
 clock = pygame.time.Clock()
-icono = pygame.image.load('player3.png')
+icono = pygame.image.load('player2.png')
 pygame.display.set_icon(icono)
 BG = pygame.image.load("IMAGESGAME/fondo_menu.jpg")
     
@@ -168,14 +207,9 @@ while True:
 
     screen.blit(MENU_TEXT, MENU_RECT)
 
-    # al momento de seleccionar la opcion que cambie de color
-
     for button in [PLAY_BUTTON, INSTRUCTIONS_BUTTON, QUIT_BUTTON]:
         button.changeColor(MENU_MOUSE_POS)
         button.update(screen)
-
-
-    # Nuevamente me ayudo Stackoverflow JSJS
         
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -260,8 +294,9 @@ while True:
                             Life -= 1
                             print(Life)
                             
-                    #if score % 10 == 0:
-                        #fun_facts(score)
+                    if score % 10 == 0 and score != 0:
+                        fun_facts(score)
+                        score += 1
 
 
                     all_sprite_list.draw(screen)
