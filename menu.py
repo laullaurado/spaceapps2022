@@ -99,33 +99,37 @@ def get_font(size): # Returns Press-Start-2P in the desired size
 
 def instructions():
     while True:
-        OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
+        INSTRUCTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
         BACKGROUND = pygame.image.load("IMAGESGAME/Background.png")
         screen.blit(BACKGROUND, (0, 0))
 
-        OPTIONS_TEXT = get_font(65).render("INSTRUCTIONS", True, "#b68f40")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(450, 100))
-        screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
+        INSTRUCTIONS_TEXT = get_font(65).render("INSTRUCTIONS", True, "#b68f40")
+        INSTRUCTIONS_RECT = INSTRUCTIONS_TEXT.get_rect(center=(450, 100))
+        screen.blit(INSTRUCTIONS_TEXT, INSTRUCTIONS_RECT)
 
-        OPTIONS_BACK = Button(image=None, pos=(450, 550), 
+        INSTRUCTIONS_BACK = Button(image=None, pos=(450, 550), 
                             text_input="BACK", font=get_font(65), base_color="Black", hovering_color="Green")
 
-        OPTIONS_BACK.changeColor(OPTIONS_MOUSE_POS)
-        OPTIONS_BACK.update(screen)
+        INSTRUCTIONS_BACK.changeColor(INSTRUCTIONS_MOUSE_POS)
+        INSTRUCTIONS_BACK.update(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
-                    break
+                if INSTRUCTIONS_BACK.checkForInput(INSTRUCTIONS_MOUSE_POS):
+                    return
 
         pygame.display.update()
         
-#def fun_facts(score):
-    
+def fun_facts(score):
+    if score == 10:
+        FACTS_MOUSE_POS = pygame.mouse.get_pos()
+
+        BACKGROUND = pygame.image.load("IMAGESGAME/Background.png")
+        screen.blit(BACKGROUND, (0, 0))
 
 pygame.init()
 
