@@ -58,9 +58,10 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        # mouse_pos = pygame.mouse.get_pos()
+        global izquierda
+        global derecha
         ancho = 40
-        velocidad = 10
+        velocidad = 8
         player.rect.y = 400
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT and player.rect.x < 900 - velocidad - ancho:
@@ -76,7 +77,6 @@ class Player(pygame.sprite.Sprite):
             else:
         	    izquierda = False
         	    derecha = False
-        	    cuentaPasos = 0
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self):
@@ -123,6 +123,9 @@ def instructions():
                     break
 
         pygame.display.update()
+        
+#def fun_facts(score):
+    
 
 pygame.init()
 
@@ -130,43 +133,16 @@ BLACK = (0, 0, 0)
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 600
 
-# x = 0
 izquierda = False
 derecha = False
-cuentaPasos = 0
 
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
-fondo =  pygame.image.load("james_webb_1.png")
 pygame.display.set_caption("Saving James")
 
 clock = pygame.time.Clock()
-# done = False
-# score = 0
 icono = pygame.image.load('player3.png')
 pygame.display.set_icon(icono)
-
-meteor_list = pygame.sprite.Group()
-all_sprite_list = pygame.sprite.Group()
-laser_list = pygame.sprite.Group()
-james_list = pygame.sprite.Group()
-
-player = Player()
-all_sprite_list.add(player)
-
-Tiempo = pygame.time.get_ticks()
-tiempo_entre = 60
-# Life = 5
-esp = 50
-
-# Background del menu, se carga con ese comando 
 BG = pygame.image.load("IMAGESGAME/fondo_menu.jpg")
-
-for i in range(0,5):
-    james = James()
-    james.rect.x = esp + i*180
-    james.rect.y = 510 
-    james_list.add(james)
-    all_sprite_list.add(james)
     
 pygame.mixer.music.load("musica.mp3")
 pygame.mixer.music.play()
@@ -203,71 +179,93 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                fondo =  pygame.image.load("james_webb_1.png")
+                all_sprite_list = pygame.sprite.Group()
+                meteor_list = pygame.sprite.Group()
+                laser_list = pygame.sprite.Group()
+                james_list = pygame.sprite.Group()
+
+                player = Player()
+                all_sprite_list.add(player)
+
+                Tiempo = pygame.time.get_ticks()
+                tiempo_entre = 65
+                esp = 50
+                
+                for i in range(0,5):
+                    james = James()
+                    james.rect.x = esp + i*180
+                    james.rect.y = 510 
+                    james_list.add(james)
+                    all_sprite_list.add(james)
+
                 done = False
                 Life = 5
                 x = 0
                 score = 0
-                while True:
-                    while not done:
-                        Tiempo = pygame.time.get_ticks()
-                        sound = pygame.mixer.Sound("laser5.ogg")
+                while not done:
+                    Tiempo = pygame.time.get_ticks()
+                    sound = pygame.mixer.Sound("laser5.ogg")
                         
-                        x_relativa = x % fondo.get_rect().width
-                        screen.blit(fondo,(x_relativa - fondo.get_rect().width,0))
-                        if x_relativa < SCREEN_WIDTH:
-                            screen.blit(fondo,(x_relativa,0))
-                        x -= 1
+                    x_relativa = x % fondo.get_rect().width
+                    screen.blit(fondo,(x_relativa - fondo.get_rect().width,0))
+                    if x_relativa < SCREEN_WIDTH:
+                        screen.blit(fondo,(x_relativa,0))
+                    x -= 1
                         
-                        if(Tiempo % tiempo_entre == 0):
-                            meteor = Meteor()
-                            meteor.rect.x = random.randrange(SCREEN_WIDTH - 20)
-                            meteor.rect.y = 600 
+                    if(Tiempo % tiempo_entre == 0):
+                        meteor = Meteor()
+                        meteor.rect.x = random.randrange(SCREEN_WIDTH - 20)
+                        meteor.rect.y = 600 
 
-                            meteor_list.add(meteor)
-                            all_sprite_list.add(meteor)
+                        meteor_list.add(meteor)
+                        all_sprite_list.add(meteor)
                         
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                done = True
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            done = True
+
                             
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_SPACE:
+                                laser = Laser()
+                                laser.rect.x = player.rect.x + 45
+                                laser.rect.y = player.rect.y - 20
+                                laser_list.add(laser)
+                                all_sprite_list.add(laser)
+                                sound.play()
 
-                            if event.type == pygame.KEYDOWN:
-                                if event.key == pygame.K_SPACE:
-                                    laser = Laser()
-                                    laser.rect.x = player.rect.x + 45
-                                    laser.rect.y = player.rect.y - 20
-                                    laser_list.add(laser)
-                                    all_sprite_list.add(laser)
-                                    sound.play()
+                    all_sprite_list.update() 
 
-                        all_sprite_list.update() 
+                    for laser in laser_list:
+                        meteor_hit_list = pygame.sprite.spritecollide(laser, meteor_list, True)	
+                        for meteor in meteor_hit_list:
+                            all_sprite_list.remove(laser)
+                            laser_list.remove(laser)
+                            score += 1
+                            print(score)
+                        if laser.rect.y < -20:
+                            all_sprite_list.remove(laser)
+                            laser_list.remove(laser)
 
-                        for laser in laser_list:
-                            meteor_hit_list = pygame.sprite.spritecollide(laser, meteor_list, True)	
-                            for meteor in meteor_hit_list:
-                                all_sprite_list.remove(laser)
-                                laser_list.remove(laser)
-                                score += 1
-                                print(score)
-                            if laser.rect.y < -20:
-                                all_sprite_list.remove(laser)
-                                laser_list.remove(laser)
-
-                        for meteor in meteor_list:
-                            james_hit_list = pygame.sprite.spritecollide(meteor, james_list, True)	
-                            for james in james_hit_list:
-                                all_sprite_list.remove(meteor)
-                                james_list.remove(meteor)
-                                Life -= 1
-                                print(Life)
+                    for meteor in meteor_list:
+                        james_hit_list = pygame.sprite.spritecollide(meteor, james_list, True)	
+                        for james in james_hit_list:
+                            all_sprite_list.remove(meteor)
+                            james_list.remove(meteor)
+                            Life -= 1
+                            print(Life)
+                            
+                    #if score % 10 == 0:
+                        #fun_facts(score)
 
 
-                        all_sprite_list.draw(screen)
+                    all_sprite_list.draw(screen)
 
-                        clock.tick(60)
-                        draw_text(screen, "Score: " + str(score), 25, SCREEN_WIDTH // 2, 10)
-                        draw_text(screen, "Lives: " + str(Life), 25, SCREEN_WIDTH // 2, 35)
-                        pygame.display.flip()
+                    clock.tick(60)
+                    draw_text(screen, "Score: " + str(score), 25, SCREEN_WIDTH // 2, 10)
+                    draw_text(screen, "Lives: " + str(Life), 25, SCREEN_WIDTH // 2, 35)
+                    pygame.display.flip()
             
             if INSTRUCTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                 instructions()

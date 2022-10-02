@@ -49,7 +49,6 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def update(self):
-        # mouse_pos = pygame.mouse.get_pos()
         ancho = 40
         velocidad = 8
         player.rect.y = 400
@@ -169,7 +168,7 @@ while not done:
 
     clock.tick(60)
     draw_text(screen, "Score: " + str(score), 25, SCREEN_WIDTH // 2, 10)
-    draw_text(screen, "Lifes: " + str(Life), 25, SCREEN_WIDTH // 2, 35)
+    draw_text(screen, "Lives: " + str(Life), 25, SCREEN_WIDTH // 2, 35)
     pygame.display.flip()
 
 pygame.quit()
